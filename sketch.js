@@ -66,7 +66,6 @@ function initBombs(bombs) {
 }
 
 function mousePressed() {
-    // Find square clicked
     if(mouseButton == LEFT) {
         if(mouseX < m*sizexy && mouseY < m*sizexy) {
             i = Math.floor(mouseX/sizexy);
