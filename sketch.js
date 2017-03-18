@@ -26,7 +26,7 @@ function setup() {
     }
 
     for(var i=0; i<bombs; i++) {
-        squares[Math.floor(bombsi[i]/m) ][ bombsi[i] % m ].setAsBomb(); // Set as bombs
+        squares[bombsi[i]% m][ Math.floor(bombsi[i]/ m) ].setAsBomb(); // Set as bombs
     }
 
 }
@@ -41,26 +41,6 @@ function draw() {
 }
 
 
-function mousePressed() {
-    // Find square clicked
-    if(mouseX < m*sizexy && mouseY < m*sizexy) {
-        i = Math.floor(mouseX/sizexy);
-        j = Math.floor(mouseY/sizexy)
-        gameover = squares[i][j].clicked();
-
-        if(!gameover) {
-            search(i, j);
-        }
-
-    }
-}
-
-
-function search(i, j) {
-
-}
-
-
 function initBombs(bombs) {
     var arr = [];
 
@@ -71,5 +51,45 @@ function initBombs(bombs) {
     }
 
     return arr;
+}
 
+function mousePressed() {
+    // Find square clicked
+    if(mouseX < m*sizexy && mouseY < m*sizexy) {
+        i = Math.floor(mouseX/sizexy);
+        j = Math.floor(mouseY/sizexy)
+
+        gameover = squares[i][j].clicked();
+        if(!gameover) {
+            explore(i, j);
+        } else {
+            console.log("gameover");
+        }
+    }
+}
+
+function numBombNear(i, j) {
+    var count = 0;
+    for(var k=i-1; k<=i+1; k++) {
+        for(var l=j-1; l<=j+1; l++) {
+            if(k>=0 && k<m && l>=0 && l<m) {
+                if(squares[k][l].isBomb) count += 1;
+            }
+        }
+    }
+
+    squares[i][j].setValue(count);
+}
+
+function explore(i, j) {
+    if(!squares[i][j].seen && !squares[i][j].value && !squares[i][j].isBomb) {
+        squares[i][j].setSeen();
+        numBombNear(i, j);
+        if(!squares[i][j].value) {
+            if(i>0) explore(i-1, j);
+            if(i<m-1) explore(i+1, j);
+            if(j>0) explore(i, j-1);
+            if(j<m-1) explore(i, j+1);
+        }
+    }
 }
