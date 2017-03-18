@@ -6,6 +6,8 @@ var board;
 var squares = [];
 var gameover = 0;
 var explored = 0;
+var s = "Size : " + m.toString() + "x" + m.toString();
+var g = "";
 
 
 function setup() {
@@ -17,10 +19,11 @@ function setup() {
     
     var x = 0;
     var y = 0;
+    var cl = [20, 20, 20]
     for (var i=0; i<m; i++) {
         squares[i] = [];
         for (var j=0; j<m; j++) {
-            squares[i][j] = new Square(x, y, 20, sizexy);
+            squares[i][j] = new Square(x, y, cl, sizexy);
             y += sizexy;
         }
         y = 0;
@@ -40,6 +43,13 @@ function draw() {
             squares[i][j].draw();
         }
     }
+
+    textSize(25);
+    textFont("Helvetica");
+    textStyle(NORMAL);
+    fill(0);
+    text(s , 40, m*sizexy+30);
+    text(g , 40, m*sizexy+60);
 }
 
 
@@ -65,12 +75,13 @@ function mousePressed() {
         if(!gameover) {
             explore(i, j);
         } else {
+            g = "You have lost! - Gameover.";
             console.log("gameover");
         }
 
         if(explored == (m*m - bombs)) {
+            g = "You have Won! - Gameover.";
             console.log("Won!");
-            gameover = 1;
         }
     }
 }
