@@ -5,6 +5,8 @@ var bombs = 40;
 var board;
 var squares = [];
 var gameover = 0;
+var explored = 0;
+
 
 function setup() {
     setFrameRate(60);
@@ -26,7 +28,7 @@ function setup() {
     }
 
     for(var i=0; i<bombs; i++) {
-        squares[bombsi[i]% m][ Math.floor(bombsi[i]/ m) ].setAsBomb(); // Set as bombs
+        squares[bombsi[i]% m][ Math.floor(bombsi[i]/ m) ].setAsBomb();
     }
 
 }
@@ -65,6 +67,11 @@ function mousePressed() {
         } else {
             console.log("gameover");
         }
+
+        if(explored == (m*m - bombs)) {
+            console.log("Won!");
+            gameover = 1;
+        }
     }
 }
 
@@ -83,8 +90,9 @@ function numBombNear(i, j) {
 
 function explore(i, j) {
     if(!squares[i][j].seen && !squares[i][j].value && !squares[i][j].isBomb) {
-        squares[i][j].setSeen();
+        explored +=1;
         numBombNear(i, j);
+        squares[i][j].setSeen();
         if(!squares[i][j].value) {
             if(i>0) explore(i-1, j);
             if(i<m-1) explore(i+1, j);
