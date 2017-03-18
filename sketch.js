@@ -67,21 +67,23 @@ function initBombs(bombs) {
 
 function mousePressed() {
     // Find square clicked
-    if(mouseX < m*sizexy && mouseY < m*sizexy) {
-        i = Math.floor(mouseX/sizexy);
-        j = Math.floor(mouseY/sizexy)
+    if(mouseButton == LEFT) {
+        if(mouseX < m*sizexy && mouseY < m*sizexy) {
+            i = Math.floor(mouseX/sizexy);
+            j = Math.floor(mouseY/sizexy)
 
-        gameover = squares[i][j].clicked();
-        if(!gameover) {
-            explore(i, j);
-        } else {
-            g = "You have lost! - Gameover.";
-            console.log("gameover");
-        }
+            gameover = squares[i][j].clicked();
+            if(!gameover) {
+                explore(i, j);
+            } else {
+                g = "You have lost! - Gameover.";
+                console.log("gameover");
+            }
 
-        if(explored == (m*m - bombs)) {
-            g = "You have Won! - Gameover.";
-            console.log("Won!");
+            if(explored == (m*m - bombs)) {
+                g = "You have Won! - Gameover.";
+                console.log("Won!");
+            }
         }
     }
 }

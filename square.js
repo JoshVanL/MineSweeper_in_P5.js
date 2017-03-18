@@ -18,7 +18,7 @@ function Square(x, y, cl, sizexy) {
         fill(this.c[0], this.c[1], this.c[2]);
         rectMode(CORNER);
         rect(this.xpos, this.ypos, sizexy, sizexy);
-        if(this.seen && this.value>0) {
+        if(this.seen && this.value>0 && !this.isBomb) {
             textSize(15);
             textStyle(BOLD);
             fill(this.textColour[0], this.textColour[1], this.textColour[2]);
